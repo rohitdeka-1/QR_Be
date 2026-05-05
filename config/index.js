@@ -22,13 +22,14 @@ const config = {
   rateLimitWindowMinutes: Number(process.env.RATE_LIMIT_WINDOW_MINUTES || 1),
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX || 200),
   queueResetHour: Number(process.env.QUEUE_RESET_HOUR || 0),
-  clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:3000,http://localhost:3000')
+  clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:3000')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean),
+  clientUrl: process.env.CLIENT_URL || 'https://qrrestrocode.netlify.app',
   adminSetupToken: process.env.ADMIN_SETUP_TOKEN || null,
-  bootstrapAdminEmail: process.env.ADMIN_EMAIL || 'admin@test.com',
-  bootstrapAdminPassword: process.env.ADMIN_PASSWORD || 'AdminPass123',
+  bootstrapAdminEmail: process.env.ADMIN_EMAIL || null,
+  bootstrapAdminPassword: process.env.ADMIN_PASSWORD || null,
   bcryptSaltRounds: Number(process.env.BCRYPT_SALT_ROUNDS || 12),
 };
 

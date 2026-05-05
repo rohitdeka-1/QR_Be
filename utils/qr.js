@@ -7,7 +7,7 @@ function generateToken() {
 }
 
 function buildQrUrl(tableId, accessCode, tableNumber, baseUrl = null) {
-  const base = baseUrl || config.clientOrigins[config.clientOrigins.length - 1] || 'http://localhost:5174';
+  const base = baseUrl || config.clientUrl || 'https://qrrestrocode.netlify.app';
   return `${base}/?accessCode=${accessCode}&tableId=${tableId}&tableNumber=${tableNumber}`;
 }
 
