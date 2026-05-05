@@ -121,6 +121,7 @@ async function createMenuItem(req, res) {
     name: req.body.name,
     description: req.body.description,
     price: Number(req.body.price),
+    variants: req.body.variants || [],
     available: req.body.available === undefined ? true : req.body.available === 'true' || req.body.available === true,
     category: req.body.category || undefined,
   };
@@ -132,11 +133,14 @@ async function createMenuItem(req, res) {
     const item = await MenuItem.create(payload);
     res.status(201).json(item);
   } catch (err) {
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ message: err.message });
+    }
     if (err.code === 11000) {
       const field = Object.keys(err.keyPattern)[0];
       return res.status(400).json({ message: `${field} already exists` });
     }
-    throw err;
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 }
 
@@ -147,8 +151,18 @@ async function updateMenuItem(req, res) {
     update.image = await uploadImageIfPresent(req, 'menu-items');
   }
   if (restaurantId) update.restaurantId = restaurantId;
-  const item = await MenuItem.findByIdAndUpdate(req.params.id, update, { new: true, runValidators: true });
-  res.json(item);
+
+  try {
+    const item = await MenuItem.findByIdAndUpdate(req.params.id, update, { new: true, runValidators: true });
+    if (!item) return res.status(404).json({ message: 'Menu item not found' });
+    res.json(item);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ message: err.message });
+    }
+    console.error('Update menu item error:', err);
+    res.status(500).json({ message: err.message || 'Failed to update menu item' });
+  }
 }
 
 async function deleteMenuItem(req, res) {

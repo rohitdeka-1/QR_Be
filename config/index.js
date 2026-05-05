@@ -22,15 +22,22 @@ const config = {
   rateLimitWindowMinutes: Number(process.env.RATE_LIMIT_WINDOW_MINUTES || 1),
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX || 200),
   queueResetHour: Number(process.env.QUEUE_RESET_HOUR || 0),
-  clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:3000')
+  clientOrigins: (process.env.CLIENT_ORIGIN || '')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean),
-  clientUrl: process.env.CLIENT_URL || 'https://qrrestrocode.netlify.app',
   adminSetupToken: process.env.ADMIN_SETUP_TOKEN || null,
-  bootstrapAdminEmail: process.env.ADMIN_EMAIL || null,
-  bootstrapAdminPassword: process.env.ADMIN_PASSWORD || null,
+  bootstrapAdminEmail: process.env.ADMIN_EMAIL || 'admin@test.com',
+  bootstrapAdminPassword: process.env.ADMIN_PASSWORD || 'AdminPass123',
   bcryptSaltRounds: Number(process.env.BCRYPT_SALT_ROUNDS || 12),
+  cloudflareR2:
+  {
+    endpoint: process.env.CLOUDFLARE_R2_ENDPOINT,
+    accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID,
+    secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
+    bucketName: process.env.CLOUDFLARE_R2_BUCKET_NAME || 'qr-restaurant',
+    publicUrl: process.env.CLOUDFLARE_R2_PUBLIC_URL || 'https://your-bucket.r2.cloudflarestorage.com',
+  },
 };
 
 export default config;

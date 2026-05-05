@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const OrderItemSchema = new mongoose.Schema({
   name: String,
+  variantName: String,
   qty: Number,
   price: Number,
 });
