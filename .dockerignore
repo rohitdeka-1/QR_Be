@@ -1,0 +1,10 @@
+node_modules
+.env
+.git
+.gitignore
+*.py
+test_*.txt
+README.md
+Dockerfile
+.dockerignore
+package-lock.json
